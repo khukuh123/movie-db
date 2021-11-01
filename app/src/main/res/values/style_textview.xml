@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.App.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/sfprotext_regular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/trans_white</item>
+    </style>
+
+    <style name="Widget.App.TextView.Display">
+        <item name="android:fontFamily">@font/sfprodisplay_medium</item>
+        <item name="fontFamily">@font/sfprodisplay_medium</item>
+    </style>
+</resources>

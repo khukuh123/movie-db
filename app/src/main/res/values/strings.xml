@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MovieDB</string>
+    <string name="label_home">Home</string>
+    <string name="label_popular">Popular</string>
+    <string name="label_favorite">Favorite</string>
+    <string name="label_other">Other</string>
+    <string name="action_watch_trailer">Watch Trailer</string>
+    <string name="action_add_to_favorite">Add to Favorite</string>
+    <string name="label_cast">Cast</string>
+</resources>
