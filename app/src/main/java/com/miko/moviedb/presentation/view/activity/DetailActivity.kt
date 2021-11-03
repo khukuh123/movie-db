@@ -1,4 +1,4 @@
-package com.miko.moviedb.presentation.detail
+package com.miko.moviedb.presentation.view.activity
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -52,6 +52,9 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
 
 }

@@ -10,7 +10,8 @@
     <color name="lighter_black">#25272A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="trans_white">#B2FFFFFF</color>
-    <color name="more_trans_white">#29FFFFFF</color>
+    <color name="more_trans_white">#66FFFFFF</color>
+    <color name="more_more_trans_white">#29FFFFFF</color>
     <color name="yellow">#FFFFD130</color>
     <color name="dark_yellow">#AE8808</color>
 </resources>

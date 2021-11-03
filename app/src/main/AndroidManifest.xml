@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieDB">
         <activity
-            android:name=".presentation.detail.DetailActivity"
+            android:name=".presentation.view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.view.activity.DetailActivity"
             android:exported="false" />
     </application>
 

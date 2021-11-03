@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.view.fragment.PopularFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ablPopular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_16dp"
+        app:layout_constraintBottom_toTopOf="@id/tvPopularLabelShowingResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tbPopular"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/light_black"
+            tools:menu="@menu/popular_menu" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPopularLabelShowingResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_20dp"
+        android:layout_marginBottom="@dimen/dimen_16dp"
+        android:text="@string/label_showing_result_of"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/rvPopular"
+        app:layout_constraintEnd_toStartOf="@id/tvPopularShowingResult"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ablPopular" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvPopularShowingResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tvPopularLabelShowingResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvPopularLabelShowingResult"
+        app:layout_constraintTop_toTopOf="@id/tvPopularLabelShowingResult"
+        tools:text="'Maze Runner'" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grpPopularShowingResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tvPopularLabelShowingResult, tvPopularShowingResult" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPopular"
+        android:layout_width="@dimen/dimen_0dp"
+        android:layout_height="@dimen/dimen_0dp"
+        android:layout_marginStart="@dimen/dimen_20dp"
+        android:layout_marginEnd="@dimen/dimen_20dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPopularLabelShowingResult"
+        app:spanCount="2"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_popular_movie" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

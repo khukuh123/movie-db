@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.view.fragment.HomeFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ablHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vpHomeBanner"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/light_black"
+            app:menu="@menu/home_page_menu">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_moviedb" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpHomeBanner"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="@dimen/dimen_240dp"
+                android:layout_marginTop="@dimen/dimen_12dp"
+                android:layout_marginBottom="@dimen/dimen_30dp"
+                app:layout_constraintBottom_toTopOf="@id/tvHomeLabelPopularMovies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvHomeLabelPopularMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginEnd="@dimen/dimen_20dp"
+                android:text="@string/label_popular_movies"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/rvHomePopularMovies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vpHomeBanner" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHomePopularMovies"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginEnd="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_32dp"
+                app:layout_constraintTop_toBottomOf="@id/tvHomeLabelPopularMovies"
+                app:layout_constraintBottom_toTopOf="@id/tvHomeLabelComingSoon"
+                android:orientation="horizontal"
+                tools:listitem="@layout/item_home_movie"
+                tools:itemCount="4"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvHomeLabelComingSoon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_coming_soon"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/rvHomeComingSoon"
+                app:layout_constraintEnd_toEndOf="@id/tvHomeLabelPopularMovies"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/tvHomeLabelPopularMovies"
+                app:layout_constraintTop_toBottomOf="@id/rvHomePopularMovies" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHomeComingSoon"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginEnd="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_32dp"
+                app:layout_constraintTop_toBottomOf="@id/tvHomeLabelComingSoon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_home_movie"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+

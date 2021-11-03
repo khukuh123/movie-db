@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">MovieDB</string>
-    <string name="label_home">Home</string>
-    <string name="label_popular">Popular</string>
-    <string name="label_favorite">Favorite</string>
-    <string name="label_other">Other</string>
+    <string name="action_home">Home</string>
+    <string name="action_popular">Popular</string>
+    <string name="action_favorite">Favorite</string>
+    <string name="action_other">Other</string>
     <string name="action_watch_trailer">Watch Trailer</string>
     <string name="action_add_to_favorite">Add to Favorite</string>
     <string name="label_cast">Cast</string>
+    <string name="action_notification">Notification</string>
+    <string name="label_popular_movies">Popular Movies</string>
+    <string name="label_coming_soon">Coming Soon</string>
+    <string name="action_search">Search</string>
+    <string name="label_showing_result_of">Showing result of </string>
 </resources>
