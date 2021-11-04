@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.miko.moviedb.R
 import com.miko.moviedb.databinding.ItemPopularMovieBinding
+import com.miko.moviedb.ext.Const
 import com.miko.moviedb.presentation.model.popular.ItemPopularModel
 
 class MoviePopularAdapter(private val data: ArrayList<ItemPopularModel>) :
@@ -16,13 +16,18 @@ class MoviePopularAdapter(private val data: ArrayList<ItemPopularModel>) :
             with(binding) {
                 tvItemPopularTitle.text = itemPopularModel.title
                 tvItemPopularGenre.text = itemPopularModel.genre
-                tvItemPopularCast.text = itemPopularModel.casts.joinToString()
-                Glide.with(root).load(R.drawable.ic_panorama).into(imgItemPopularMovie)
+                tvItemPopularOverview.text = itemPopularModel.overview
+                Glide.with(root).load("${Const.BASE_IMG_URL}${itemPopularModel.poster}").into(imgItemPopularMovie)
+
+                imgItemPopularMovie.setOnClickListener {
+                    onItemClickCallback.onItemClicked(itemPopularModel)
+                }
             }
         }
     }
 
     private var binding: ItemPopularMovieBinding? = null
+    private lateinit var onItemClickCallback: OnItemClickCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding =
@@ -37,7 +42,21 @@ class MoviePopularAdapter(private val data: ArrayList<ItemPopularModel>) :
 
     override fun getItemCount(): Int = data.size
 
+    fun setData(data: ArrayList<ItemPopularModel>){
+        this.data.clear()
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     fun destroy() {
         binding = null
+    }
+
+    fun interface OnItemClickCallback{
+        fun onItemClicked(itemPopularModel: ItemPopularModel)
     }
 }

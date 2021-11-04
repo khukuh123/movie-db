@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@id/tvItemFavoriteYear"
         app:layout_constraintEnd_toStartOf="@id/btnItemFavoriteAddToFavorite"
         app:layout_constraintStart_toEndOf="@id/imgItemFavoriteMovie"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgItemFavoriteMovie"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Itaewon Class" />

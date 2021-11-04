@@ -15,6 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Corner4"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/ic_panorama"
         tools:background="@color/light_black" />
 
@@ -26,14 +27,14 @@
         android:maxLines="1"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@id/tvItemPopularCast"
+        app:layout_constraintBottom_toTopOf="@id/tv_item_popular_overview"
         app:layout_constraintEnd_toEndOf="@id/imgItemPopularMovie"
         app:layout_constraintStart_toStartOf="@id/imgItemPopularMovie"
         app:layout_constraintTop_toBottomOf="@id/imgItemPopularMovie"
         tools:text="Maze Runner - The Guide to the Glade" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvItemPopularCast"
+        android:id="@+id/tv_item_popular_overview"
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"

@@ -4,56 +4,100 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
+import com.miko.moviedb.data.Resource
 import com.miko.moviedb.databinding.FragmentHomeBinding
-import com.miko.moviedb.domain.model.Movie
-import com.miko.moviedb.ext.Mapper.toBannerModels
-import com.miko.moviedb.ext.Mapper.toItemHomeModels
+import com.miko.moviedb.ext.reusable.LinearLayoutItemDecoration
+import com.miko.moviedb.ext.utils.Mapper.toBannerModels
+import com.miko.moviedb.ext.utils.Mapper.toItemHomeModels
 import com.miko.moviedb.presentation.view.adapter.BannerHomeAdapter
 import com.miko.moviedb.presentation.view.adapter.MovieHomeAdapter
+import com.miko.moviedb.presentation.viewmodel.HomeViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
+import java.util.*
 
 class HomeFragment : Fragment() {
 
-    companion object {
-
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
-    private var param1: String? = null
-    private var param2: String? = null
     private var binding: FragmentHomeBinding? = null
     private val bannerHomeAdapter by lazy {
-        BannerHomeAdapter(Movie.generateLists().toBannerModels())
+        BannerHomeAdapter(arrayListOf())
     }
     private val popularHomeAdapter by lazy {
-        MovieHomeAdapter(Movie.generateLists().toItemHomeModels())
+        MovieHomeAdapter(arrayListOf())
     }
     private val comingSoonHomeAdapter by lazy {
-        MovieHomeAdapter(Movie.generateLists().toItemHomeModels())
+        MovieHomeAdapter(arrayListOf())
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val viewModel: HomeViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
+        initObserver()
+        initAction()
+    }
+
+    private fun initAction() {
+        var action: NavDirections
+        bannerHomeAdapter.setOnItemClickCallback { model ->
+            action = HomeFragmentDirections.actionHomePageToDetailActivity(model.id)
+            view?.findNavController()?.navigate(action)
+        }
+        popularHomeAdapter.setOnItemClickCallback { model ->
+            action = HomeFragmentDirections.actionHomePageToDetailActivity(model.id)
+            view?.findNavController()?.navigate(action)
+        }
+        comingSoonHomeAdapter.setOnItemClickCallback { model ->
+            action = HomeFragmentDirections.actionHomePageToDetailActivity(model.id)
+            view?.findNavController()?.navigate(action)
+        }
+    }
+
+    private fun initObserver() {
+        viewModel.getBanner().observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    bannerHomeAdapter.setData(it.data!!.toBannerModels())
+                }
+                is Resource.Error -> {
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        }
+        viewModel.getPopularMovies().observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    popularHomeAdapter.setData(it.data!!.toItemHomeModels())
+                }
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        }
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = Date().time
+        viewModel.getComingSoon(calendar.get(Calendar.YEAR) + 1).observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    comingSoonHomeAdapter.setData(it.data!!.toItemHomeModels())
+                }
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        }
     }
 
     private fun initUI() {
@@ -64,7 +108,20 @@ class HomeFragment : Fragment() {
         binding?.apply {
             vpHomeBanner.adapter = bannerHomeAdapter
             rvHomePopularMovies.adapter = popularHomeAdapter
+            rvHomePopularMovies.addItemDecoration(
+                LinearLayoutItemDecoration(
+                    16,
+                    orientation = LinearLayout.HORIZONTAL
+                )
+            )
             rvHomeComingSoon.adapter = comingSoonHomeAdapter
+            rvHomeComingSoon.addItemDecoration(
+                LinearLayoutItemDecoration(
+                    24,
+                    orientation = LinearLayout.HORIZONTAL,
+                    includeEdge = true
+                )
+            )
         }
     }
 

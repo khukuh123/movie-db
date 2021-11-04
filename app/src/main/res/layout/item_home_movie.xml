@@ -4,17 +4,18 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/dimen_8dp">
-    
+    tools:layout_margin="@dimen/dimen_8dp">
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgItemHomeMovie"
-        android:layout_width="@dimen/dimen_100dp"
+        android:layout_width="@dimen/dimen_120dp"
         android:layout_height="@dimen/dimen_160dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:src="@drawable/ic_panorama"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_panorama"
         tools:background="@color/light_black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

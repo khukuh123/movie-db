@@ -5,50 +5,30 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.miko.moviedb.R
 import com.miko.moviedb.databinding.FragmentFavoriteBinding
-import com.miko.moviedb.domain.model.Movie
-import com.miko.moviedb.ext.Mapper.toItemFavoriteModels
-import com.miko.moviedb.ext.initTextChanges
+import com.miko.moviedb.ext.reusable.LinearLayoutItemDecoration
+import com.miko.moviedb.ext.utils.Mapper.toItemFavoriteModels
+import com.miko.moviedb.ext.utils.initTextChanges
+import com.miko.moviedb.presentation.model.favorite.ItemFavoriteModel
 import com.miko.moviedb.presentation.view.adapter.MovieFavoriteAdapter
+import com.miko.moviedb.presentation.viewmodel.FavoriteViewModel
 import kotlinx.coroutines.flow.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
 
-    companion object {
-
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
-    private var param1: String? = null
-    private var param2: String? = null
     private var binding: FragmentFavoriteBinding? = null
     private var queryFlow: Flow<String?>? = null
     private val movieFavoriteAdapter by lazy {
-        MovieFavoriteAdapter(Movie.generateLists().toItemFavoriteModels())
+        MovieFavoriteAdapter(arrayListOf())
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +43,38 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initUI()
+        initObserver()
+        initAction()
+    }
+
+    private fun initAction() {
+        movieFavoriteAdapter.setOnClickCallback(object : MovieFavoriteAdapter.OnClickCallback {
+            override fun onFavoriteClicked(itemFavoriteModel: ItemFavoriteModel, position: Int) {
+                itemFavoriteModel.isFavorite = !itemFavoriteModel.isFavorite
+                favoriteViewModel.updateFavoriteMovie(
+                    itemFavoriteModel.isFavorite,
+                    itemFavoriteModel.id
+                )
+                movieFavoriteAdapter.removeData(itemFavoriteModel, position)
+            }
+
+            override fun onItemClicked(itemFavoriteModel: ItemFavoriteModel) {
+                val action =
+                    FavoriteFragmentDirections.actionFavoritePageToDetailActivity(itemFavoriteModel.id)
+                view?.findNavController()?.navigate(action)
+            }
+        })
+    }
+
+    private fun initObserver() {
+        favoriteViewModel.getFavoriteMovies().observe(viewLifecycleOwner) {
+            movieFavoriteAdapter.setData(it.toItemFavoriteModels())
+        }
+    }
+
+    private fun initUI() {
         binding?.apply {
             (requireActivity() as AppCompatActivity).apply {
                 setSupportActionBar(tbFavorite)
@@ -76,6 +88,7 @@ class FavoriteFragment : Fragment() {
     private fun initRecyclerView() {
         binding?.apply {
             rvFavorite.adapter = movieFavoriteAdapter
+            rvFavorite.addItemDecoration(LinearLayoutItemDecoration(16, includeEdge = true))
         }
     }
 

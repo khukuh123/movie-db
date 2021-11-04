@@ -9,46 +9,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.miko.moviedb.R
+import com.miko.moviedb.data.Resource
 import com.miko.moviedb.databinding.FragmentPopularBinding
-import com.miko.moviedb.domain.model.Movie
-import com.miko.moviedb.ext.Mapper.toItemPopularModels
-import com.miko.moviedb.ext.initTextChanges
+import com.miko.moviedb.ext.reusable.GridLayoutItemDecoration
+import com.miko.moviedb.ext.utils.Mapper.toItemPopularModels
+import com.miko.moviedb.ext.utils.initTextChanges
 import com.miko.moviedb.presentation.view.adapter.MoviePopularAdapter
+import com.miko.moviedb.presentation.viewmodel.PopularViewModel
 import kotlinx.coroutines.flow.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
     private var binding: FragmentPopularBinding? = null
     private var queryFlow: Flow<String?>? = null
     private val moviePopularAdapter by lazy {
-        MoviePopularAdapter(Movie.generateLists().toItemPopularModels())
+        MoviePopularAdapter(arrayListOf())
     }
-
-    companion object {
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PopularFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val popularViewModel: PopularViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,6 +45,31 @@ class PopularFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
+        initAction()
+        initObserver()
+    }
+
+    private fun initAction() {
+        moviePopularAdapter.setOnItemClickCallback{ model ->
+            val action = PopularFragmentDirections.actionPopularPageToDetailActivity(model.id)
+            view?.findNavController()?.navigate(action)
+        }
+    }
+
+    private fun initObserver() {
+        popularViewModel.getPopularMovies().observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    moviePopularAdapter.setData(it.data!!.toItemPopularModels())
+                }
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        }
     }
 
     private fun initUI() {
@@ -81,6 +86,7 @@ class PopularFragment : Fragment() {
     private fun initRecyclerView() {
         binding?.apply {
             rvPopular.adapter = moviePopularAdapter
+            rvPopular.addItemDecoration(GridLayoutItemDecoration(2, 24, false))
         }
     }
 
